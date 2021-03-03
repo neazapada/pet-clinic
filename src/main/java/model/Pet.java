@@ -37,6 +37,9 @@ public class Pet {
         this.isVaccinated = isVaccinated;
         this.ownerName = ownerName;
     }
+    public Pet(String name){
+
+    }
 
     public Long getIdPet() {
         return idPet;
