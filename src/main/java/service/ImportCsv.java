@@ -1,9 +1,11 @@
 package service;
 
 import model.Consult;
+import model.Owner;
 import model.Pet;
 import model.Veterinarian;
 import repository.ConsultDao;
+import repository.OwnerDao;
 import repository.PetDao;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import java.util.Scanner;
 public class ImportCsv {
 
     public static void importCsvPet() throws IOException {
-        System.out.println("Introduceti locatia fisierului");
+        System.out.println("Introduceti locatia fisierului + fisier ex: F:\\pet1.csv");
         Scanner scanner = new Scanner(System.in);
         String location = scanner.next();
         CSVReader csvReader = new CSVReader(new FileReader(location));
@@ -42,7 +44,7 @@ public class ImportCsv {
 
 
     public static void importCsvVet() throws IOException {
-        System.out.println("Introduceti locatia fisierului");
+        System.out.println("Introduceti locatia fisierului + fisier ex: F:\\vet1.csv");
         Scanner scanner = new Scanner(System.in);
         String location = scanner.next();
         CSVReader csvReader = new CSVReader(new FileReader(location));
@@ -65,7 +67,7 @@ public class ImportCsv {
     }
 
     public static void importCsvConsult() throws IOException {
-        System.out.println("Introduceti locatia fisierului");
+        System.out.println("Introduceti locatia fisierului + fisier ex: F:\\cons1.csv");
         Scanner scanner = new Scanner(System.in);
         String location = scanner.next();
         CSVReader csvReader = new CSVReader(new FileReader(location));
@@ -79,9 +81,31 @@ public class ImportCsv {
             PetDao petDao1 = new PetDao();
             consult.setDate(line1[0]);
             consult.setDescription(line1[1]);
-            veterinarianDao1.findByIdVeterinarian(Long.parseLong(line1[2]));
-            petDao1.findByIdPet(Long.parseLong(line1[3]));
+            consult.setVeterinarian(veterinarianDao1.findByIdVeterinarian(Long.parseLong(line1[2])));
+            consult.setPet(petDao1.findByIdPet(Long.parseLong(line1[3])));
             consultDao.createConsult(consult);
+            System.out.print(line1 + " ");
+
+            System.out.println(" ");
+        }
+    }
+    public static void importCsvOwner() throws IOException {
+        System.out.println("Introduceti locatia fisierului + fisier ex: F:\\owner1.csv");
+        Scanner scanner = new Scanner(System.in);
+        String location = scanner.next();
+        CSVReader csvReader = new CSVReader(new FileReader(location));
+        StringBuffer buffer1 = new StringBuffer();
+        String[] line1;
+        while ((line1 = csvReader.readNext()) != null) {
+
+            OwnerDao ownerDao = new OwnerDao();
+            Owner owner = new Owner();
+
+            owner.setFirstName(line1[0]);
+            owner.setLastName(line1[1]);
+            owner.setPhoneNumber(line1[2]);
+            owner.setEmail(line1[3]);
+            ownerDao.createOwner(owner);
             System.out.print(line1 + " ");
 
             System.out.println(" ");

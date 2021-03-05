@@ -49,7 +49,7 @@ public class PetClinicService {
 
     }
 
-    public static void showOption() {
+    public static void showOption() throws IOException {
         showMenu();
         Scanner scanner = new Scanner(System.in);
         boolean quit = false;
@@ -76,6 +76,8 @@ public class PetClinicService {
             case 4:
                 find();
                 break;
+            case 5:
+                importCsv();
 
         }
 
@@ -93,7 +95,7 @@ public class PetClinicService {
 //
 //    }
 
-    public static void create() {
+    public static void create() throws IOException {
 
         System.out.println("\nPress ");
         System.out.println("\t 0 - Exit.");
@@ -199,7 +201,7 @@ public class PetClinicService {
     }
 
 
-    public static void update() {
+    public static void update() throws IOException {
         int updateOption;
         System.out.println("\nPress ");
         System.out.println("\t 0 - Exit.");
@@ -412,7 +414,7 @@ public class PetClinicService {
         }
     }
 
-    public static void delete() {
+    public static void delete() throws IOException {
         int deleteOption;
         System.out.println("\nPress ");
         System.out.println("\t 0 - Exit.");
@@ -469,7 +471,7 @@ public class PetClinicService {
     }
 
 
-    public static void find() {
+    public static void find() throws IOException {
         int findOption;
         System.out.println("\nPress ");
         System.out.println("\t 0 - Exit.");
@@ -531,7 +533,8 @@ public class PetClinicService {
         System.out.println("\t 1 - Import Veterinarian");
         System.out.println("\t 2 - Import Pet");
         System.out.println("\t 3 - Import Consult");
-        System.out.println("\t 4 - return to main menu");
+        System.out.println("\t 4 - Import Owner");
+        System.out.println("\t 5 - return to main menu");
 
         System.out.println("Enter your choice: ");
         int createOption;
@@ -546,16 +549,23 @@ public class PetClinicService {
                 break;
             case 1:
                 ImportCsv.importCsvVet();
+                importCsv();
                 break;
             case 2:
                 ImportCsv.importCsvPet();
+                importCsv();
                 break;
             case 3:
                 ImportCsv.importCsvConsult();
+                importCsv();
                 break;
             case 4:
+                ImportCsv.importCsvOwner();
+                importCsv();
+            case 5:
                 showOption();
                 break;
+
 
         }
     }
