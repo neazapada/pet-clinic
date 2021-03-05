@@ -176,14 +176,20 @@ public class PetClinicService {
                 String phoneNumber = scanner.next();
                 System.out.println("Please insert owner's email:");
                 String email = scanner.next();
+                EmailValid emailValid = new EmailValid();
+                emailValid.isValidEmailAddress(email);
+                while( !emailValid.isValidEmailAddress(email)) {
+                    System.out.println("Introduceti o adresa de email valida");
+                    email = scanner.next();
 
-
+                }
                 OwnerDao ownerDao1 = new OwnerDao();
                 Owner owner1 = new Owner(firstName1, lastName1, phoneNumber, email);
                 ownerDao1.createOwner(owner1);
 
-                System.out.println("The owner with first name " + firstName1 + " last name " + lastName1 +" phone number " + phoneNumber +
+                System.out.println("The owner with first name " + firstName1 + " last name " + lastName1 + " phone number " + phoneNumber +
                         " and email " + email + " was successfully created!");
+
                 showOption();
                 break;
             case 5:
