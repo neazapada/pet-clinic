@@ -1,6 +1,7 @@
 package utility;
 
 import model.Consult;
+import model.Owner;
 import model.Pet;
 import model.Veterinarian;
 import org.hibernate.SessionFactory;
@@ -34,6 +35,7 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Pet.class);
                 configuration.addAnnotatedClass(Veterinarian.class);
                 configuration.addAnnotatedClass(Consult.class);
+                configuration.addAnnotatedClass(Owner.class);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();

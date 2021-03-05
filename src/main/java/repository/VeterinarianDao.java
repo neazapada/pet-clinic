@@ -13,13 +13,13 @@ public class VeterinarianDao {
     public  Veterinarian findByIdVeterinarian(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            Veterinarian veterinarian = session.find(Veterinarian.class, "axinte");
+            Veterinarian veterinarian = session.find(Veterinarian.class, id);
+            session.close();
             return  veterinarian;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
-        }finally {
-            session.close();
+
         }
     }
 

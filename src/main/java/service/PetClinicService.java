@@ -2,9 +2,11 @@ package service;
 
 import com.opencsv.CSVReader;
 import model.Consult;
+import model.Owner;
 import model.Pet;
 import model.Veterinarian;
 import repository.ConsultDao;
+import repository.OwnerDao;
 import repository.PetDao;
 import repository.VeterinarianDao;
 
@@ -98,7 +100,8 @@ public class PetClinicService {
         System.out.println("\t 1 - Create Veterinar");
         System.out.println("\t 2 - Create Pet");
         System.out.println("\t 3 - Create Consult");
-        System.out.println("\t 4 - return to main menu");
+        System.out.println("\t 4 - Create owner");
+        System.out.println("\t 5 - return to main menu");
 
         System.out.println("Enter your choice: ");
         int createOption;
@@ -135,14 +138,15 @@ public class PetClinicService {
                 String birthdate = scanner.next();
                 System.out.println("este vaccinat? (true sau false )");
                 boolean isVaccinated = scanner.nextBoolean();
-                System.out.println("Introduceti numele propietarului");
-                String ownerName = scanner.next();
+                System.out.println("Introduceti idul propietarului");
+                Long ownerId = scanner.nextLong();
+                OwnerDao ownerDao = new OwnerDao();
 
                 PetDao petDao = new PetDao();
-                Pet pet = new Pet(rasa, birthdate, isVaccinated, ownerName);
+                Pet pet = new Pet(rasa, birthdate, isVaccinated,ownerDao.findByIdOwner(ownerId) );
                 petDao.createPet(pet);
                 System.out.println("animalul cu rasa " + rasa + " cu data de nastere " + birthdate +" vaccinat " + isVaccinated +
-                        " si stapanul " + ownerName + " a fost creat cu succes");
+                        " si stapanul  a fost creat cu succes");
                 showOption();
                 break;
             case 3:
@@ -164,6 +168,25 @@ public class PetClinicService {
                 showOption();
                 break;
             case 4:
+                System.out.println("Please insert owner's first name:");
+                String firstName1 = scanner.next();
+                System.out.println("Please insert owner's last name:");
+                String lastName1 = scanner.next();
+                System.out.println("Please insert owner's phone number:");
+                String phoneNumber = scanner.next();
+                System.out.println("Please insert owner's email:");
+                String email = scanner.next();
+
+
+                OwnerDao ownerDao1 = new OwnerDao();
+                Owner owner1 = new Owner(firstName1, lastName1, phoneNumber, email);
+                ownerDao1.createOwner(owner1);
+
+                System.out.println("The owner with first name " + firstName1 + " last name " + lastName1 +" phone number " + phoneNumber +
+                        " and email " + email + " was successfully created!");
+                showOption();
+                break;
+            case 5:
                 showOption();
                 break;
         }
@@ -177,7 +200,8 @@ public class PetClinicService {
         System.out.println("\t 1 - Update Veterinar");
         System.out.println("\t 2 - Update Pet");
         System.out.println("\t 3 - Update Consult");
-        System.out.println("\t 4 - return to main menu");
+        System.out.println("\t 4 - Update Owner");
+        System.out.println("\t 5 - return to main menu");
 
         System.out.println("Enter your choice: ");
 
@@ -212,7 +236,6 @@ public class PetClinicService {
                         System.out.println("Introduceti prenumele veterinarului");
                         veterinarian1.setFirstName(scanner.next());
                         veterinarianDao.updateVeterinarian(veterinarian1);
-                        update();
                         break;
                     case 2:
                         System.out.println("Introduceti numele");
@@ -251,7 +274,7 @@ public class PetClinicService {
                 System.out.println("\t 1 - Update Race");
                 System.out.println("\t 2 - Update BirthDate");
                 System.out.println("\t 3 - Update isVaccinated");
-                System.out.println("\t 4 - Update ownerName");
+                System.out.println("\t temp - Update ownerName");
                 System.out.println("\t 5 - return to update menu");
                 System.out.println("\t 6 - return to main menu");
 
@@ -279,12 +302,7 @@ public class PetClinicService {
                         petDao.updatePet(pet);
                         update();
                         break;
-                    case 4:
-                        System.out.println("Introduceti propietarul");
-                        pet.setOwnerName(scanner.next());
-                        petDao.updatePet(pet);
-                        update();
-                        break;
+
                     case 5:
                         update();
                         break;
@@ -332,7 +350,58 @@ public class PetClinicService {
                         break;
                 }
             case 4:
-                update();
+                System.out.println("update owner");
+                OwnerDao ownerDao = new OwnerDao();
+                System.out.println("Introduceti id-ul ownerului pe care vreti sa il modificati ");
+                Long idOwmer = scanner.nextLong();
+                Owner owner = ownerDao.findByIdOwner(idOwmer);
+                System.out.println("\nPress ");
+                System.out.println("\t 0 - Return to main menu.");
+                System.out.println("\t 1 - Update FirstName");
+                System.out.println("\t 2 - Update lastName");
+                System.out.println("\t 3 - Update PhoneNumber");
+                System.out.println("\t 4 - Update email");
+                System.out.println("\t 5 - return to update menu");
+                System.out.println("\t 6 - return to main menu");
+
+                System.out.println("\t Enter your choice: ");
+                int updateOwner = scanner.nextInt();
+
+                switch (updateOwner) {
+                    case 0:
+                        showOption();
+                    case 1:
+                        System.out.println("Introduceti prenumele owner-ului");
+                        owner.setFirstName(scanner.next());
+                        ownerDao.updateOwner(owner);
+                        break;
+                    case 2:
+                        System.out.println("Introduceti numele");
+                        owner.setLastName(scanner.next());
+                        ownerDao.updateOwner(owner);
+                        update();
+                        break;
+                    case 3:
+                        System.out.println("introduceti phoneNumber");
+                        owner.setPhoneNumber(scanner.next());
+                        ownerDao.updateOwner(owner);
+                        update();
+                        break;
+                    case 4:
+                        System.out.println("Introduceti email");
+                        owner.setEmail(scanner.next());
+                        ownerDao.updateOwner(owner);
+                        update();
+                        break;
+                    case 5:
+                        update();
+                        break;
+                    case 6:
+                        showOption();
+                        break;
+                }
+            case 5:
+                showOption();
                 break;
         }
     }
@@ -344,7 +413,8 @@ public class PetClinicService {
         System.out.println("\t 1 - Delete Veterinar");
         System.out.println("\t 2 - Delete Pet");
         System.out.println("\t 3 - Delete Consult");
-        System.out.println("\t 4 - return to main menu");
+        System.out.println("\t 4 - Delete Owner");
+        System.out.println("\t 5 - return to main menu");
 
         System.out.println("Enter your choice: ");
 
@@ -378,6 +448,17 @@ public class PetClinicService {
                 consultDao.deleteConsult(c1);
                 delete();
                 break;
+            case 4:
+                System.out.println("Introduceti id-ul ownerului care vreti sa o stergeti");
+                OwnerDao ownerDao = new OwnerDao();
+                long idowner = scanner.nextLong();
+                Owner o1 = ownerDao.findByIdOwner(idowner);
+                ownerDao.deleteOwner(o1);
+                delete();
+                break;
+            case 5:
+                showOption();
+                break;
         }
     }
 
@@ -389,7 +470,8 @@ public class PetClinicService {
         System.out.println("\t 1 - Find Veterinar");
         System.out.println("\t 2 - Find Pet");
         System.out.println("\t 3 - Find Consult");
-        System.out.println("\t 4 - find by Name vet");
+        System.out.println("\t 4 - Find Owner");
+        System.out.println("\t 5 - find by Name vet");
 
         System.out.println("Enter your choice: ");
 
@@ -422,12 +504,53 @@ public class PetClinicService {
                 System.out.println(c1);
                 break;
             case 4:
+                System.out.println("Introduceti id-ul ownerului care vreti sa o afisati");
+                OwnerDao ownerDao = new OwnerDao();
+                long idOwner = scanner.nextLong();
+                Owner o1 = ownerDao.findByIdOwner(idOwner);
+                System.out.println(o1);
+                break;
+            case 5:
                 System.out.println("Introduceti numele veterinarului care vreti sa il afisati");
                 VeterinarianDao veterinarianDao1 = new VeterinarianDao();
                 String idvet1 = scanner.next();
                 List<Veterinarian> v2 = veterinarianDao1.findByNameVet(idvet1);
                 System.out.println(v2.toString());
                 break;
+        }
+    }
+    public static void importCsv() throws IOException {
+        System.out.println("\nPress ");
+        System.out.println("\t 0 - Exit.");
+        System.out.println("\t 1 - Import Veterinarian");
+        System.out.println("\t 2 - Import Pet");
+        System.out.println("\t 3 - Import Consult");
+        System.out.println("\t 4 - return to main menu");
+
+        System.out.println("Enter your choice: ");
+        int createOption;
+
+        Scanner scanner = new Scanner(System.in);
+        createOption = scanner.nextInt();
+        boolean quit = false;
+
+        switch (createOption) {
+            case 0:
+                quit = true;
+                break;
+            case 1:
+                ImportCsv.importCsvVet();
+                break;
+            case 2:
+                ImportCsv.importCsvPet();
+                break;
+            case 3:
+                ImportCsv.importCsvConsult();
+                break;
+            case 4:
+                showOption();
+                break;
+
         }
     }
 }

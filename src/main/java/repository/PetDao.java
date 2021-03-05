@@ -10,6 +10,7 @@ public class PetDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             Pet Pet = session.find(Pet.class, id);
+            session.close();
             return Pet;
         } catch (Exception ex) {
             ex.printStackTrace();

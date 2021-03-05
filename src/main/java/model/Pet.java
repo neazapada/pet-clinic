@@ -22,8 +22,10 @@ public class Pet {
     @Column(name = "is_vaccinated")
     private boolean isVaccinated;
 
-    @Column(name = "owner_name")
-    private String ownerName;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     @OneToMany(mappedBy="pet")
     private List<Consult> consults;
@@ -31,12 +33,14 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(String race, String birthDate, boolean isVaccinated, String ownerName) {
+    public Pet(String race, String birthDate, boolean isVaccinated, Owner owner) {
         this.race = race;
         this.birthDate = birthDate;
         this.isVaccinated = isVaccinated;
-        this.ownerName = ownerName;
+        this.owner = owner;
+
     }
+
     public Pet(String name){
 
     }
@@ -81,12 +85,12 @@ public class Pet {
         isVaccinated = vaccinated;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
     @Override
@@ -95,7 +99,6 @@ public class Pet {
                 "idPet=" + idPet +
                 ", birthDate='" + birthDate + '\'' +
                 ", isVaccinated=" + isVaccinated +
-                ", ownerName='" + ownerName + '\'' +
                 '}';
     }
 }
