@@ -1,5 +1,6 @@
 package repository;
 
+import model.Pet;
 import model.Veterinarian;
 
 import org.hibernate.Session;
@@ -80,6 +81,24 @@ public class VeterinarianDao {
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+    public List<Veterinarian> displayVet() {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Query query = session.createQuery("from Veterinarian", Veterinarian.class);
+            List<Veterinarian> vets = query.list();
+            return vets;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    public void displayAllVets() {
+        List<Veterinarian> vets = displayVet();
+        System.out.println("\tVets: \t");
+        for (Veterinarian vet : vets) {
+            System.out.println(vet);
         }
     }
 }

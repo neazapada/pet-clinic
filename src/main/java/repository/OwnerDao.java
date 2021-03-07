@@ -1,6 +1,8 @@
 package repository;
 
+import model.Consult;
 import model.Owner;
+import model.Pet;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -83,6 +85,24 @@ public class OwnerDao {
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+    public List<Owner> displayOwner() {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Query query = session.createQuery("from Owner", Owner.class);
+            List<Owner> owners = query.list();
+            return owners;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    public void displayAllOwners() {
+        List<Owner> owns = displayOwner();
+        System.out.println("\tOwners: \t");
+        for (Owner owner : owns) {
+            System.out.println(owner);
         }
     }
 }

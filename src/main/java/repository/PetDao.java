@@ -3,7 +3,10 @@ import model.Pet;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import utility.HibernateUtil;
+
+import java.util.List;
 
 public class PetDao {
     public Pet findByIdPet(Long id) {
@@ -62,4 +65,23 @@ public class PetDao {
             ex.printStackTrace();
         }
     }
+    public List<Pet> displayPets() {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Query query = session.createQuery("from Pet", Pet.class);
+            List<Pet> pets = query.list();
+            return pets;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    public void displayAllPets() {
+        List<Pet> pets = displayPets();
+        System.out.println("\tPets: \t");
+        for (Pet pet : pets) {
+            System.out.println(pet);
+        }
+    }
+
 }

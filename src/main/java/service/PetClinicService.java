@@ -9,10 +9,13 @@ import repository.ConsultDao;
 import repository.OwnerDao;
 import repository.PetDao;
 import repository.VeterinarianDao;
+import sun.util.resources.LocaleData;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -46,6 +49,7 @@ public class PetClinicService {
         System.out.println("\t 3 - Delete");
         System.out.println("\t 4 - List/Find");
         System.out.println("\t 5 - Import from .csv");
+        System.out.println("\t 6 - Export to .csv");
 
     }
 
@@ -78,6 +82,10 @@ public class PetClinicService {
                 break;
             case 5:
                 importCsv();
+                break;
+            case 6:
+                exportCsv();
+                break;
 
         }
 
@@ -118,13 +126,13 @@ public class PetClinicService {
                 break;
             case 1:
                 System.out.println("Introduceti numele veterinarului");
-                String nume = scanner.next();
+                String nume = scanner.next() + scanner.nextLine();
                 System.out.println("Introduceti prenumele");
-                String prenume = scanner.next();
+                String prenume = scanner.next() + scanner.nextLine();
                 System.out.println("introduceti adresa");
-                String address = scanner.next();
+                String address = scanner.next() + scanner.nextLine();
                 System.out.println("Introduceti specialitatea");
-                String speciality = scanner.next();
+                String speciality = scanner.next() + scanner.nextLine();
 
                 VeterinarianDao veterinarianDao = new VeterinarianDao();
                 Veterinarian veterinarian = new Veterinarian(nume, prenume, address, speciality);
@@ -152,11 +160,10 @@ public class PetClinicService {
                 showOption();
                 break;
             case 3:
-                System.out.println("Introduceti data consultatiei");
-                String consultDate = scanner.next();
+                LocalDate localDate = LocalDate.now();
+                String date = String.valueOf(localDate);
                 System.out.println("Introduceti descrierea");
-                String description = scanner.next();
-//                Veterinarian veterinarian1 = veterinarianDao.findByIdVeterinarian(1L);
+                String description = scanner.next() + scanner.nextLine();
                 VeterinarianDao veterinarianDao1 = new VeterinarianDao();
                 PetDao petDao1 = new PetDao();
                 System.out.println("Introduceti id-ul veterinarului");
@@ -165,17 +172,17 @@ public class PetClinicService {
                 long idPet = scanner.nextLong();
 
                 ConsultDao consultDao = new ConsultDao();
-                Consult consult = new Consult(consultDate, description, veterinarianDao1.findByIdVeterinarian(idVeterinar), petDao1.findByIdPet(idPet));
+                Consult consult = new Consult(date, description, veterinarianDao1.findByIdVeterinarian(idVeterinar), petDao1.findByIdPet(idPet));
                 consultDao.createConsult(consult);
                 showOption();
                 break;
             case 4:
                 System.out.println("Please insert owner's first name:");
-                String firstName1 = scanner.next();
+                String firstName1 = scanner.next() + scanner.nextLine();;
                 System.out.println("Please insert owner's last name:");
-                String lastName1 = scanner.next();
+                String lastName1 = scanner.next() + scanner.nextLine();;
                 System.out.println("Please insert owner's phone number:");
-                String phoneNumber = scanner.next();
+                String phoneNumber = scanner.next() + scanner.nextLine();;
                 System.out.println("Please insert owner's email:");
                 String email = scanner.next();
                 EmailValid emailValid = new EmailValid();
@@ -183,7 +190,6 @@ public class PetClinicService {
                 while( !emailValid.isValidEmailAddress(email)) {
                     System.out.println("Introduceti o adresa de email valida");
                     email = scanner.next();
-
                 }
                 OwnerDao ownerDao1 = new OwnerDao();
                 Owner owner1 = new Owner(firstName1, lastName1, phoneNumber, email);
@@ -218,6 +224,7 @@ public class PetClinicService {
 
         switch (updateOption) {
             case 0:
+                System.exit(0);
                 break;
             case 1:
                 System.out.println("update veterinar");
@@ -239,27 +246,27 @@ public class PetClinicService {
 
                 switch (updateVeterinarian) {
                     case 0:
-                        showOption();
+                        System.exit(0);
                     case 1:
                         System.out.println("Introduceti prenumele veterinarului");
-                        veterinarian1.setFirstName(scanner.next());
+                        veterinarian1.setFirstName(scanner.next() + scanner.nextLine());
                         veterinarianDao.updateVeterinarian(veterinarian1);
                         break;
                     case 2:
                         System.out.println("Introduceti numele");
-                        veterinarian1.setLastName(scanner.next());
+                        veterinarian1.setLastName(scanner.next() + scanner.nextLine());
                         veterinarianDao.updateVeterinarian(veterinarian1);
                         update();
                         break;
                     case 3:
                         System.out.println("introduceti adresa");
-                        veterinarian1.setAddress(scanner.next());
+                        veterinarian1.setAddress(scanner.next() + scanner.nextLine());
                         veterinarianDao.updateVeterinarian(veterinarian1);
                         update();
                         break;
                     case 4:
                         System.out.println("Introduceti specialitatea");
-                        veterinarian1.setSpeciality(scanner.next());
+                        veterinarian1.setSpeciality(scanner.next() + scanner.nextLine());
                         veterinarianDao.updateVeterinarian(veterinarian1);
                         update();
                         break;
@@ -291,16 +298,16 @@ public class PetClinicService {
 
                 switch (updatePet) {
                     case 0:
-                        showOption();
+                        System.exit(0);
                     case 1:
                         System.out.println("Introduceti rasa animalului");
-                        pet.setRace(scanner.next());
+                        pet.setRace(scanner.next() + scanner.nextLine());
                         petDao.updatePet(pet);
                         update();
                         break;
                     case 2:
                         System.out.println("Introduceti Birthdate");
-                        pet.setBirthDate(scanner.next());
+                        pet.setBirthDate(scanner.next() + scanner.nextLine());
                         petDao.updatePet(pet);
                         update();
                         break;
@@ -337,16 +344,16 @@ public class PetClinicService {
 
                 switch (updateConsult) {
                     case 0:
-                        showOption();
+                        System.exit(0);
                     case 1:
                         System.out.println("Introduceti data");
-                        consult.setDate(scanner.next());
+                        consult.setDate(scanner.next() + scanner.nextLine());
                         consultDao.updateConsult(consult);
                         update();
                         break;
                     case 2:
                         System.out.println("Introduceti description");
-                        consult.setDescription(scanner.next());
+                        consult.setDescription(scanner.next() + scanner.nextLine());
                         consultDao.updateConsult(consult);
                         update();
                         break;
@@ -377,27 +384,34 @@ public class PetClinicService {
 
                 switch (updateOwner) {
                     case 0:
-                        showOption();
+                        System.exit(0);
                     case 1:
                         System.out.println("Introduceti prenumele owner-ului");
-                        owner.setFirstName(scanner.next());
+                        owner.setFirstName(scanner.next() + scanner.nextLine());
                         ownerDao.updateOwner(owner);
                         break;
                     case 2:
                         System.out.println("Introduceti numele");
-                        owner.setLastName(scanner.next());
+                        owner.setLastName(scanner.next() + scanner.nextLine());
                         ownerDao.updateOwner(owner);
                         update();
                         break;
                     case 3:
                         System.out.println("introduceti phoneNumber");
-                        owner.setPhoneNumber(scanner.next());
+                        owner.setPhoneNumber(scanner.next() + scanner.nextLine());
                         ownerDao.updateOwner(owner);
                         update();
                         break;
                     case 4:
                         System.out.println("Introduceti email");
-                        owner.setEmail(scanner.next());
+                        String email = scanner.next();
+                        EmailValid emailValid = new EmailValid();
+                        emailValid.isValidEmailAddress(email);
+                        while( !emailValid.isValidEmailAddress(email)) {
+                            System.out.println("Introduceti o adresa de email valida");
+                            email = scanner.next();
+                        }
+                        owner.setEmail(email);
                         ownerDao.updateOwner(owner);
                         update();
                         break;
@@ -431,7 +445,7 @@ public class PetClinicService {
 
         switch (deleteOption) {
             case 0:
-                showOption();
+                System.exit(0);
             case 1:
                 System.out.println("Introduceti id-ul veterinarului care vreti sa il stergeti");
                 VeterinarianDao veterinarianDao = new VeterinarianDao();
@@ -479,7 +493,11 @@ public class PetClinicService {
         System.out.println("\t 2 - Find Pet");
         System.out.println("\t 3 - Find Consult");
         System.out.println("\t 4 - Find Owner");
-        System.out.println("\t 5 - find by Name vet");
+        System.out.println("\t 5 - Display all Veterinars");
+        System.out.println("\t 6 - Display all Pets");
+        System.out.println("\t 7 - Display all Consults");
+        System.out.println("\t 8 - Display all Owners");
+        System.out.println("\t 9 - find by Name vet");
 
         System.out.println("Enter your choice: ");
 
@@ -488,7 +506,7 @@ public class PetClinicService {
 
         switch (findOption) {
             case 0:
-                showOption();
+                System.exit(0);
             case 1:
                 System.out.println("Introduceti id-ul veterinarului care vreti sa il afisati");
                 VeterinarianDao veterinarianDao = new VeterinarianDao();
@@ -500,9 +518,9 @@ public class PetClinicService {
                 System.out.println("Introduceti id-ul animalului care vreti sa il afisati");
                 PetDao petDao = new PetDao();
                 long idpet = scanner.nextLong();
-
                 Pet p1 = petDao.findByIdPet(idpet);
                 System.out.println(p1);
+                showOption();
                 break;
             case 3:
                 System.out.println("Introduceti id-ul consultatiei care vreti sa o afisati");
@@ -510,6 +528,7 @@ public class PetClinicService {
                 long idcon = scanner.nextLong();
                 Consult c1 = consultDao.findByIdConsult(idcon);
                 System.out.println(c1);
+                showOption();
                 break;
             case 4:
                 System.out.println("Introduceti id-ul ownerului care vreti sa o afisati");
@@ -517,13 +536,35 @@ public class PetClinicService {
                 long idOwner = scanner.nextLong();
                 Owner o1 = ownerDao.findByIdOwner(idOwner);
                 System.out.println(o1);
+                showOption();
                 break;
             case 5:
+                VeterinarianDao veterinarianDao2 = new VeterinarianDao();
+                veterinarianDao2.displayAllVets();
+                showOption();
+                break;
+            case 6:
+                PetDao petDao1 = new PetDao();
+                petDao1.displayAllPets();
+                showOption();
+                break;
+            case 7:
+                ConsultDao consultDao1 = new ConsultDao();
+                consultDao1.displayAllCons();
+                showOption();
+                break;
+            case 8:
+                OwnerDao ownerDao1 = new OwnerDao();
+                ownerDao1.displayAllOwners();
+                showOption();
+                break;
+            case 9:
                 System.out.println("Introduceti numele veterinarului care vreti sa il afisati");
                 VeterinarianDao veterinarianDao1 = new VeterinarianDao();
                 String idvet1 = scanner.next();
                 List<Veterinarian> v2 = veterinarianDao1.findByNameVet(idvet1);
                 System.out.println(v2.toString());
+                showOption();
                 break;
         }
     }
@@ -537,15 +578,13 @@ public class PetClinicService {
         System.out.println("\t 5 - return to main menu");
 
         System.out.println("Enter your choice: ");
-        int createOption;
 
         Scanner scanner = new Scanner(System.in);
-        createOption = scanner.nextInt();
-        boolean quit = false;
+        int createOption = scanner.nextInt();
 
         switch (createOption) {
             case 0:
-                quit = true;
+                System.exit(0);
                 break;
             case 1:
                 ImportCsv.importCsvVet();
@@ -569,4 +608,50 @@ public class PetClinicService {
 
         }
     }
+    public static void exportCsv() throws IOException {
+        System.out.println("\nPress ");
+        System.out.println("\t 0 - Exit.");
+        System.out.println("\t 1 - Export Veterinarian");
+        System.out.println("\t 2 - Export Pet");
+        System.out.println("\t 3 - Export Consult");
+        System.out.println("\t 4 - Export Owner");
+        System.out.println("\t 5 - return to main menu");
+
+        System.out.println("Enter your choice: ");
+        ExportCsv exportCsv = new ExportCsv();
+
+
+        Scanner scanner = new Scanner(System.in);
+        int exportOption = scanner.nextInt();
+
+        switch (exportOption) {
+            case 0:
+                System.exit(0);
+                break;
+            case 1:
+                VeterinarianDao veterinarianDao = new VeterinarianDao();
+                exportCsv.exportCsvVet(veterinarianDao.displayVet());
+                showOption();
+                break;
+            case 2:
+                PetDao petDao = new PetDao();
+                exportCsv.exportCsvPet(petDao.displayPets());
+                showOption();
+                break;
+            case 3:
+                ConsultDao consultDao = new ConsultDao();
+                exportCsv.exportCsvConsult(consultDao.displayConsults());
+                showOption();
+                break;
+            case 4:
+                OwnerDao ownerDao = new OwnerDao();
+                exportCsv.exportCsvOwner(ownerDao.displayOwner());
+                showOption();
+                break;
+            case 5:
+                showOption();
+                break;
+        }
+    }
+
 }
