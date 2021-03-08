@@ -7,12 +7,9 @@ import model.Veterinarian;
 import repository.ConsultDao;
 import repository.OwnerDao;
 import repository.PetDao;
-
 import java.io.IOException;
-
 import com.opencsv.CSVReader;
 import repository.VeterinarianDao;
-
 import java.io.FileReader;
 import java.util.Scanner;
 

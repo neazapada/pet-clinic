@@ -1,6 +1,4 @@
 package service;
-
-import com.opencsv.CSVReader;
 import model.Consult;
 import model.Owner;
 import model.Pet;
@@ -9,15 +7,9 @@ import repository.ConsultDao;
 import repository.OwnerDao;
 import repository.PetDao;
 import repository.VeterinarianDao;
-import sun.util.resources.LocaleData;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -178,11 +170,11 @@ public class PetClinicService {
                 break;
             case 4:
                 System.out.println("Please insert owner's first name:");
-                String firstName1 = scanner.next() + scanner.nextLine();;
+                String firstName1 = scanner.next() + scanner.nextLine();
                 System.out.println("Please insert owner's last name:");
-                String lastName1 = scanner.next() + scanner.nextLine();;
+                String lastName1 = scanner.next() + scanner.nextLine();
                 System.out.println("Please insert owner's phone number:");
-                String phoneNumber = scanner.next() + scanner.nextLine();;
+                String phoneNumber = scanner.next() + scanner.nextLine();
                 System.out.println("Please insert owner's email:");
                 String email = scanner.next();
                 EmailValid emailValid = new EmailValid();
